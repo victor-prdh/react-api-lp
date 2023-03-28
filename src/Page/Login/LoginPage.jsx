@@ -45,8 +45,7 @@ const LoginPage = () => {
             .then((response) => response.json())
             .then((data) => {
                 if (data) {
-                    console.log(data);
-                    localStorage.setItem('user', data);
+                    localStorage.setItem('user', JSON.stringify(data));
                     console.log('USER SAVED');
                 } else {
                     alert('Erreur lors de la récupération des datas de l\'utilisateur')
