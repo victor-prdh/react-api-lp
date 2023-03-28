@@ -1,5 +1,5 @@
 import LoginForm from "../../Component/LoginForm/LoginForm";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -7,8 +7,22 @@ const LoginPage = () => {
 
     const navigate = useNavigate();
 
+    const [user, setUser] = useState(null)
+
+    useEffect(() => {
+        const getUser = async() => {
+            let tempUser = localStorage.getItem('user');
+            if (tempUser) {
+                tempUser = await JSON.parse(tempUser);
+                setUser(tempUser)
+            }
+        }
+
+        getUser()
+    } , [])
+
     const [ formSubmitting, setFormSubmitting ] = useState(false);
-    const handleSubmit = async (credentials) => {
+    const handleSubmit = (credentials) => {
         setFormSubmitting(true);
         try {
             fetch("http://localhost:8000/auth", {
@@ -38,7 +52,7 @@ const LoginPage = () => {
         }
     };
 
-    const saveUserData = async (token) => {
+    const saveUserData = (token) => {
         setFormSubmitting(true);
         try {
             fetch("http://localhost:8000/api/users/me", {
@@ -50,7 +64,8 @@ const LoginPage = () => {
             .then((data) => {
                 if (data) {
                     localStorage.setItem('user', JSON.stringify(data));
-                    console.log('USER SAVED');
+                    console.log(data);
+                    return data
                 } else {
                     alert('Erreur lors de la récupération des datas de l\'utilisateur')
                 }
@@ -61,12 +76,27 @@ const LoginPage = () => {
         }
     };
 
+    const logout = () => {
+        localStorage.clear()
+        setUser(null)
+        navigate('/login')
+    }
+
     return(
         <div>
-
-            <LoginForm
-                handleSubmit={handleSubmit}
-            />
+            {
+                user ?
+                    <>
+                    <h1>
+                        Déjà connecté en tant que: {user.email}
+                    </h1>
+                    <button onClick={logout}>Se déconnecter</button>
+                    </> :
+                    <LoginForm
+                        handleSubmit={handleSubmit}
+                    />
+            }
+            
 
         </div>
     )
