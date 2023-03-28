@@ -38,7 +38,9 @@ const LoginPage = () => {
                 if (data.token) {
                     localStorage.setItem('token', data.token);
                     saveUserData(data.token)
-                    navigate('/')
+                    setTimeout(() => {
+                        navigate('/')
+                    }, 500);
                     console.log('TOKEN SAVED');
                 } else {
                     alert('Erreur lors de la connexion')
