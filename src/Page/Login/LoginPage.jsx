@@ -1,8 +1,11 @@
 import LoginForm from "../../Component/LoginForm/LoginForm";
 import {useState} from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const LoginPage = () => {
+
+    const navigate = useNavigate();
 
     const [ formSubmitting, setFormSubmitting ] = useState(false);
     const handleSubmit = async (credentials) => {
@@ -21,6 +24,7 @@ const LoginPage = () => {
                 if (data.token) {
                     localStorage.setItem('token', data.token);
                     saveUserData(data.token)
+                    navigate('/')
                     console.log('TOKEN SAVED');
                 } else {
                     alert('Erreur lors de la connexion')
