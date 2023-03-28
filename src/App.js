@@ -16,7 +16,6 @@ export function RequireAuth({ children }) {
 }
 
 function App() {
-
     //Navigation dans requireAuth
     return (
         //TODO ROUTER

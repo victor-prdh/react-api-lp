@@ -8,7 +8,7 @@ import './LoginForm.css';
 const LoginForm = ({handleSubmit}) => {
 
     const [credentials, setCredentials] = useState({
-        login: '',
+        email: '',
         password: ''
     });
 
@@ -20,7 +20,7 @@ const LoginForm = ({handleSubmit}) => {
 
     const handleLoginChange = (event) => {
         handleChange({
-            key: 'login',
+            key: 'email',
             value: event.currentTarget.value
         });
     };
@@ -40,13 +40,17 @@ const LoginForm = ({handleSubmit}) => {
     return (
         <>
 
-            <form id="login-form" onSubmit={handleSubmitForm}>
+            <form id="email-form" onSubmit={handleSubmitForm}>
 
                 <div className='credentials-and-password-container'>
 
+                    <input type="email" name='email' value={credentials.email} onChange={handleLoginChange} placeholder="Email"/>
+                    <input type="text" value={credentials.password} onChange={handlePasswordChange} placeholder="Mot de passe"/>
+
                     <button
-                        className='login-page-call-to-action'
+                        className='email-page-call-to-action'
                         type="submit"
+                        onClick={handleSubmitForm}
                     >
                         Submit
                     </button>
