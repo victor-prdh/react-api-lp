@@ -50,9 +50,10 @@ const LoginPage = () => {
     const getUserData = () => {
         setFormSubmitting(true);
         let token = localStorage.getItem('token');
-        if (!token) {
-            logout()
+        if (!token ) {
+            return logout()
         }
+        
         try {
             fetch("http://localhost:8000/api/users/me", {
                 headers: {
@@ -81,6 +82,7 @@ const LoginPage = () => {
         localStorage.clear()
         setUser(null)
         navigate('/login')
+        setIsLoading(false)
     }
 
     return(
