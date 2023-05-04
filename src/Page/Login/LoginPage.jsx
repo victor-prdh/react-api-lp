@@ -26,7 +26,7 @@ const LoginPage = () => {
                 .then((data) => {
                     if (data.token) {
                         localStorage.setItem('token', data.token);
-                        getUserData(data.token)
+                        getUserData()
                         setTimeout(() => {
                             navigate('/')
                         }, 500);
@@ -88,6 +88,7 @@ const LoginPage = () => {
     }
 
     useEffect(() => {
+        console.log('HERE');
         getUserData()
     }, [])
 
