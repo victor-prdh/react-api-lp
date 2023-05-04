@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Request } from "../../Helper/request";
+import Card, {card} from "../../Component/Card/Card"
+
+import './Home.css';
 
 
 const HomePage = () => {
@@ -20,7 +23,13 @@ const HomePage = () => {
             <h1>Hello</h1>
             <Link to={'/login'}>Login</Link>
             <br />
-            Champions: {champ ? 'oui' : 'non'}
+            <div className="container">
+            {
+                champ ?
+                champ.map(champion => <Card image={champion.banner} title={champion.name} desc={champion.lore} />)
+                : 'Pas de champions'
+            }
+            </div>
         </div>
     )
 }

@@ -16,7 +16,8 @@ export const Request = async (url, set, navigate) => {
     } else {
         var data = fetch(url, {
             headers: {
-                Authorization: 'Bearer '.concat(token)
+                Authorization: 'Bearer '.concat(token),
+                
             }
         })
             .then(async (response) => {
@@ -30,7 +31,11 @@ export const Request = async (url, set, navigate) => {
                 return response.json()
             })
             .then((data) => {
-                set(data);
+                if (data['hydra:member']) {
+                    set(data['hydra:member'])
+                } else {
+                    set(data);
+                }
                 return
             })
     }
