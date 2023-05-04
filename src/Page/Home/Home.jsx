@@ -1,44 +1,26 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Request } from "../../Helper/request";
 
 
 const HomePage = () => {
-
-    const navigate = useNavigate();
-
-    const [user, setUser] = useState(null)
+    const navigate = useNavigate()
+    const [champ, setChamp] = useState(null)
 
     useEffect(() => {
-        const checkUser = async() => {
-            var user = localStorage.getItem('user');
-            if (!user) {
-                console.log('login');
-                navigate('/login')
-            } else {
-                user = await JSON.parse(user);
-                console.log(user);
-                setUser(user)
-            }
+        const getChamp = async () => {
+            await Request('http://localhost:8000/api/champions', setChamp, navigate)
         }
-
-        checkUser()
-    } , [])
-
-    const logout = () => {
-        localStorage.clear()
-        navigate('/login')
-    }
-
-    return(
+        getChamp()
+    },[])
+        
+    console.log(champ);
+    return (
         <div>
-            {user ? 
-            <>
-                <h1>
-                    Salut {user.email}
-                </h1>
-                <button onClick={logout}>Se déconnecter</button>
-            </>
-            : "LOADING"}
+            <h1>Hello</h1>
+            <Link to={'/login'}>Login</Link>
+            <br />
+            Champions: {champ ? 'oui' : 'non'}
         </div>
     )
 }

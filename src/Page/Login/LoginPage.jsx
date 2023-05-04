@@ -1,6 +1,6 @@
 import LoginForm from "../../Component/LoginForm/LoginForm";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const LoginPage = () => {
@@ -27,9 +27,6 @@ const LoginPage = () => {
                     if (data.token) {
                         localStorage.setItem('token', data.token);
                         getUserData()
-                        setTimeout(() => {
-                            navigate('/')
-                        }, 500);
                         console.log('TOKEN SAVED');
                     } else {
                         alert('Erreur lors de la connexion')
@@ -68,6 +65,7 @@ const LoginPage = () => {
                 console.log(data);
                 if (data.code === 200) {
                     setUser(data)
+
                 } else if (data.code === 401) {
                     alert(data.message);
                     return logout()
@@ -102,6 +100,7 @@ const LoginPage = () => {
                             <h1>
                                 Déjà connecté en tant que: {user.email}
                             </h1>
+                            <Link to={'/'}>Home</Link>
                             <button onClick={logout}>Se déconnecter</button>
                         </> :
                         <LoginForm
