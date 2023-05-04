@@ -8,17 +8,10 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     const [user, setUser] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        const getUser = async() => {
-            let tempUser = localStorage.getItem('user');
-            if (tempUser) {
-                tempUser = await JSON.parse(tempUser);
-                setUser(tempUser)
-            }
-        }
-
-        getUser()
+        getUserData()
     } , [])
 
     const [ formSubmitting, setFormSubmitting ] = useState(false);
@@ -37,7 +30,7 @@ const LoginPage = () => {
             .then((data) => {
                 if (data.token) {
                     localStorage.setItem('token', data.token);
-                    saveUserData(data.token)
+                    getUserData(data.token)
                     setTimeout(() => {
                         navigate('/')
                     }, 500);
@@ -54,8 +47,12 @@ const LoginPage = () => {
         }
     };
 
-    const saveUserData = (token) => {
+    const getUserData = () => {
         setFormSubmitting(true);
+        let token = localStorage.getItem('token');
+        if (!token) {
+            logout()
+        }
         try {
             fetch("http://localhost:8000/api/users/me", {
                 headers: {
@@ -65,17 +62,19 @@ const LoginPage = () => {
             .then((response) => response.json())
             .then((data) => {
                 if (data) {
-                    localStorage.setItem('user', JSON.stringify(data));
-                    console.log(data);
-                    return data
+                    setUser(data)
                 } else {
                     alert('Erreur lors de la récupération des datas de l\'utilisateur')
                 }
+                setIsLoading(false)
             });
         } catch (error) {
             console.log(error);
+            setIsLoading(false)
             alert('Erreur lors de la connexion')
         }
+
+        
     };
 
     const logout = () => {
@@ -87,7 +86,9 @@ const LoginPage = () => {
     return(
         <div>
             {
-                user ?
+                isLoading ?
+                <h3>Loading</h3>
+                : user ?
                     <>
                     <h1>
                         Déjà connecté en tant que: {user.email}
