@@ -4,6 +4,7 @@ import { Request } from "../../Helper/request";
 
 import './Champ.css';
 import Loader from "../../Component/Loader/Loader";
+import Avis from '../../Component/Avis/Avis'
 
 
 const ChampPage = () => {
@@ -31,6 +32,18 @@ const ChampPage = () => {
                     <img src={champion.banner} />
                     <h3>Titre: {champion.title}</h3>
                     <p>{champion.lore}</p>
+                    {champion.avis && champion.avis.length > 0 ? <>
+                        <h3>Avis sur le champion</h3>
+                        {
+                            champion.avis.map(avis =>
+                                <Avis 
+                                    by={avis.createdBy.firstname} 
+                                    at={avis.createdAt} 
+                                    content={avis.content} 
+                                /> 
+                            )
+                        }
+                        </> : <h3>Pas encore d'avis sur le champion</h3>}
                 </>
                 : 
                 <div style={{width: '100%', alignItems: 'center', justifyContent: "center", display: "flex"}}>
