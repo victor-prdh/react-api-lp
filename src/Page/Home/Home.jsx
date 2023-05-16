@@ -26,7 +26,9 @@ const HomePage = () => {
             <div className="container">
             {
                 champ ?
-                champ.map(champion => <Card image={champion.banner} title={champion.name} desc={champion.lore} />)
+                champ.map(champion => 
+                    <Card image={champion.banner} title={champion.name} desc={champion.lore.substring(0, 120).concat('...')} />
+                )
                 : 
                 <div style={{width: '100%', alignItems: 'center', justifyContent: "center", display: "flex"}}>
                     <Loader />
