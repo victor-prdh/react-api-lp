@@ -24,7 +24,7 @@ const ChampPage = () => {
             <Link to={'/'}>Home</Link> / 
             <Link to={'/login'}>Profil</Link>
             <br />
-            <div className="container">
+            <div className="champ-container">
             {
                 champion ?
                 <>

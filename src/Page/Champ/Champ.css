@@ -1,4 +1,4 @@
-.container {
+.champ-container {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -6,18 +6,18 @@
     justify-content: space-between;
     width: 90%;
     max-width: 90%;
-    margin: auto;
+    margin: 20px auto;
     gap: 0;
 }
 
-.container img {
+.champ-container img {
     width: 100%;
     height: 400px;
     object-fit: cover;
     object-position: left top;
 }
 
-.container h3 {
+.champ-container h3 {
     margin-bottom: 0;
     padding-bottom: 0;
 }
