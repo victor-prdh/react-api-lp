@@ -2,15 +2,16 @@
 import React from 'react';
 
 import './Card.css';
+import { Link } from 'react-router-dom';
 
-const Card = ({title, image, desc}) => {
+const Card = ({title, image, desc, link = "#"}) => {
 
     return (
-        <div className='card'>
+        <Link to={link} className='card'>
             <img src={image} alt="image" />
             <h4>{title}</h4>
             <p>{desc}</p>
-        </div>
+        </Link>
     );
 };
 

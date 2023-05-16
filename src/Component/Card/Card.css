@@ -1,5 +1,7 @@
 .card {
     max-width: 400px;
+    text-decoration: none;
+    color: black;
 }
 
 .card img {

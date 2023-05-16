@@ -1,34 +1,37 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Request } from "../../Helper/request";
-import Card from "../../Component/Card/Card"
 
-import './Home.css';
+import './Champ.css';
 import Loader from "../../Component/Loader/Loader";
 
 
-const HomePage = () => {
+const ChampPage = () => {
     const navigate = useNavigate()
-    const [champ, setChamp] = useState(null)
+    const {id} = useParams();
+    const [champion, setChampion] = useState(null)
 
     useEffect(() => {
         const getChamp = async () => {
-            await Request('http://localhost:8000/api/champions', setChamp, navigate)
+            await Request('http://localhost:8000/api/champions/'.concat(id), setChampion, navigate)
         }
         getChamp()
     },[])
 
     return (
         <div>
-            <h1>Champs</h1>
+            <h1>{id}</h1>
+            <Link to={'/'}>Home</Link> / 
             <Link to={'/login'}>Profil</Link>
             <br />
             <div className="container">
             {
-                champ ?
-                champ.map(champion => 
-                    <Card key={champion.id} image={champion.banner} title={champion.name} desc={champion.lore.substring(0, 120).concat('...')} link={'champion/'.concat(champion.id)} />
-                )
+                champion ?
+                <>
+                    <img src={champion.banner} />
+                    <h3>Titre: {champion.title}</h3>
+                    <p>{champion.lore}</p>
+                </>
                 : 
                 <div style={{width: '100%', alignItems: 'center', justifyContent: "center", display: "flex"}}>
                     <Loader />
@@ -39,4 +42,4 @@ const HomePage = () => {
     )
 }
 
-export default HomePage;
+export default ChampPage;
