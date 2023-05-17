@@ -12,6 +12,7 @@ const ChampPage = () => {
     const {id} = useParams();
     const [champion, setChampion] = useState(null)
     const [avis, setAvis] = useState(null)
+    const [avisLoading, setAvisLoading] = useState(null)
     const [avisUser, setAvisUser] = useState(null)
     const [avisError, setAvisError] = useState(null)
     const [avisSuccess, setAvisSuccess] = useState(null)
@@ -38,14 +39,15 @@ const ChampPage = () => {
 
         var body = {content: avisUser, champion: '/api/champions/'.concat(champion.id)}
         var data = await Request({url: 'http://localhost:8000/api/avis', body: body, navigate: navigate})
-
-        console.log(data);
         
 
         if (data.id) {
+            setAvisLoading(true)
             setAvisUser(null)
             setAvisError(null)
             setAvisSuccess('Votre avis vient d\'être créé')
+            await Request({url:'http://localhost:8000/api/avis?champion.lolId='.concat(id), set:setAvis, navigate:navigate})
+            setAvisLoading(false)
         }
     }
 
@@ -58,6 +60,7 @@ const ChampPage = () => {
 
     useEffect(() => {
         setAvis(champion?.avis)
+        setAvisLoading(false)
     },[champion])
 
     return (
@@ -86,7 +89,8 @@ const ChampPage = () => {
                         </form>
                     </div>
 
-                    {avis && avis.length > 0 ? <>
+                    {avisLoading ?  <Loader/>:
+                    avis && avis.length > 0 ? <>
                         <h3>Avis sur le champion</h3>
                         {
                             avis.map(avis =>

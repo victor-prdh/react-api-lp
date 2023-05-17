@@ -37,11 +37,14 @@ export const Request = async ({url, set, navigate, body}) => {
                 return response.json()
             })
             .then((data) => {
-                if (data['hydra:member']) {
-                    set(data['hydra:member'])
-                } else {
-                    set(data);
+                if (set) {
+                    if (data['hydra:member']) {
+                        set(data['hydra:member'])
+                    } else {
+                        set(data);
+                    }
                 }
+                
                 return data
             })
 
