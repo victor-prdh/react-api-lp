@@ -45,7 +45,7 @@ const LoginForm = ({handleSubmit}) => {
                 <div className='credentials-and-password-container'>
 
                     <input type="email" name='email' value={credentials.email} onChange={handleLoginChange} placeholder="Email"/>
-                    <input type="text" value={credentials.password} onChange={handlePasswordChange} placeholder="Mot de passe"/>
+                    <input type="password" value={credentials.password} onChange={handlePasswordChange} placeholder="Mot de passe"/>
 
                     <button
                         className='email-page-call-to-action'

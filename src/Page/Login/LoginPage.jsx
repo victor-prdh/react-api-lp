@@ -91,7 +91,7 @@ const LoginPage = () => {
     }, [])
 
     return (
-        <div>
+        <div className="champ-container">
             {
                 isLoading ?
                     <h3>Loading</h3>
@@ -103,9 +103,12 @@ const LoginPage = () => {
                             <Link to={'/'}>Home</Link>
                             <button onClick={logout}>Se déconnecter</button>
                         </> :
-                        <LoginForm
-                            handleSubmit={handleSubmit}
-                        />
+                        <>
+                            <h1>Login</h1>
+                            <LoginForm
+                                handleSubmit={handleSubmit}
+                            />
+                        </>
             }
 
 
