@@ -13,7 +13,7 @@ const HomePage = () => {
 
     useEffect(() => {
         const getChamp = async () => {
-            await Request('http://localhost:8000/api/champions', setChamp, navigate)
+            await Request({url: 'http://localhost:8000/api/champions', set: setChamp, navigate: navigate})
         }
         getChamp()
     },[])

@@ -21,3 +21,7 @@
     margin-bottom: 0;
     padding-bottom: 0;
 }
+
+.champ-container .avis-form, .champ-container .avis-form textarea {
+    width: 100%;
+}

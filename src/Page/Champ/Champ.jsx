@@ -11,13 +11,54 @@ const ChampPage = () => {
     const navigate = useNavigate()
     const {id} = useParams();
     const [champion, setChampion] = useState(null)
+    const [avis, setAvis] = useState(null)
+    const [avisUser, setAvisUser] = useState(null)
+    const [avisError, setAvisError] = useState(null)
+    const [avisSuccess, setAvisSuccess] = useState(null)
+    
+
+    const  handleChange = (event) => {
+        if (event.target.value.length >= 255) {
+            setAvisError('Votre avis ne peut pas dépasser 255 chars')
+        }
+        else {
+            setAvisUser(event.target.value)
+            setAvisError(null)
+        }
+	};
+
+    const handleAvis = async (event) => {
+        event.preventDefault()
+        if (avisUser === null || avisUser === '') {
+            return setAvisError('Votre avis ne doit pas être vide')
+        }
+        if (avisError !== null) {
+            return
+        }
+
+        var body = {content: avisUser, champion: '/api/champions/'.concat(champion.id)}
+        var data = await Request({url: 'http://localhost:8000/api/avis', body: body, navigate: navigate})
+
+        console.log(data);
+        
+
+        if (data.id) {
+            setAvisUser(null)
+            setAvisError(null)
+            setAvisSuccess('Votre avis vient d\'être créé')
+        }
+    }
 
     useEffect(() => {
         const getChamp = async () => {
-            await Request('http://localhost:8000/api/champions/'.concat(id), setChampion, navigate)
+            await Request({url:'http://localhost:8000/api/champions/'.concat(id), set:setChampion, navigate:navigate})
         }
         getChamp()
     },[])
+
+    useEffect(() => {
+        setAvis(champion?.avis)
+    },[champion])
 
     return (
         <div>
@@ -32,10 +73,23 @@ const ChampPage = () => {
                     <img src={champion.banner} />
                     <h3>Titre: {champion.title}</h3>
                     <p>{champion.lore}</p>
-                    {champion.avis && champion.avis.length > 0 ? <>
+
+                    <div className="avis-form">
+                        <h3>Écrire un avis</h3>
+                        <p className="text-success">{avisSuccess}</p>
+                        <hr />
+                        <form id="avisForm" onSubmit={handleAvis}>
+                            <textarea name="avis" id="avis" cols="30" rows="10" value={avisUser} onChange={handleChange}></textarea>
+                            <p className="text-error">{avisError}</p>
+
+                            <input type="submit" value="Ajouter mon avis" onClick={handleAvis} />
+                        </form>
+                    </div>
+
+                    {avis && avis.length > 0 ? <>
                         <h3>Avis sur le champion</h3>
                         {
-                            champion.avis.map(avis =>
+                            avis.map(avis =>
                                 <Avis 
                                     by={avis.createdBy.firstname} 
                                     at={avis.createdAt} 
